@@ -20,8 +20,12 @@
     <div id="Buttons">
       <button type="button" onclick="getDbVal()">Click Me!</button>
       <div id="queryRes"></div>
-      <button type="button" onclick="createLink()">Create link</button>
-      <button type="button" onclick="removeLink()">Remove link</button>
+      <div id="vars"></div>
+      <button type="button" onclick="performAction(SET_LINK)">Create link</button>
+      <button type="button" onclick="performAction(DEL_LINK)">Remove link</button>
+      <button type="button" onclick="performAction(ADD_NODE)">Add node</button>
+      <button type="button" onclick="performAction(DEL_NODE)">Remove node</button>
+      <div id="tempData"></div>
     </div>
   </body>
 </html

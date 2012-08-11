@@ -5,19 +5,22 @@ var scene_el;
 var offset_left;
 var offset_top;
 var db = openDatabase('mydb', '1.0', 'Test DB', 2 * 1024 * 1024);
-var selected = null;
-var action = null;
-var linking_el = false;
+var selected;
+var startX = 50;
+var startY = 50;
 
 //ACTION CONSTANTS
 var SET_LINK = 1;
 var DEL_LINK = 2;
+var DEL_NODE = 3;
+var ADD_NODE = 4;
 
 
 function node(pX,pY){
     this.x = pX;
     this.y = pY;
     this.r = 10;
+    this.selected = false;
     this.style = "black";
     this.links = new Array();
     this.draw = function(){
@@ -77,65 +80,105 @@ function draw(){
     }
 }
 
-function createLink(){
-    action = SET_LINK
-}
-
-function removeLink(){
-    action = DEL_LINK
-}
-
-
-
-function performAction(el){
-    switch (action){
+function performAction(val){
+    switch (val){
     case SET_LINK:
-	selected.createLink(el);
-	action=null;
+	if (selected.length==2){
+	    selected[0].createLink(selected[1]);
+	} else {
+	    alert("Please select 2 nodes");
+	}
 	break;
     case DEL_LINK:
-	selected.removeLink(el);
-	action=null;
+	if (selected.length==2){
+	    selected[0].removeLink(selected[1]);
+	}else {
+	    alert("Please select 2 nodes");
+	}
 	break;
+    case DEL_NODE:
+	if (selected.length==1){
+	    removeNode(selected[0]);
+	}else {
+	    alert("Please select 1 node");
+	} 
+	break;
+    case ADD_NODE:
+	addNode();
+	break;
+    }
+    for (var i=0;i<selected.length;i++){
+	selected[i].style = "black";
+	selected.pop();
     }
 }
 
-function init(){
-    dbStuff();
-    context = $("#work_panel")[0].getContext("2d");
-    context_width = $("#work_panel")[0].width;
-    context_height = $("#work_panel")[0].height;
-    offset_left=$("#work_panel").offset().left;
-    offset_top=$("#work_panel").offset().top;
-    scene_el = new Array();
-    scene_el[0] = new node(100+offset_left,200+offset_top);
-    scene_el[1] = new node(150+offset_left,200+offset_top);
-    mainInterval = setInterval(draw, 10);
+function removeNode(node){
+    var new_array = new Array();
+    var i=0;
+    var j=0;
+    for (var i=0;i<scene_el.length;i++){
+	if (node!=scene_el[i]){
+	    new_array[j]=scene_el[i];
+	    j++;
+	}
+    }
+    scene_el=new_array;
+}
+
+function addNode(){
+    scene_el.push(new node(startX, startY));
 }
 
 function onMouseDown(e){
-   for (var i=0;i<scene_el.length;i++){
+    found = false;
+    for (var i=0;i<scene_el.length;i++){
 	if (scene_el[i].collide(e.pageX,e.pageY)){
-	    scene_el[i].draggable=true;
-	    if (action==null && selected!=scene_el[i]){
-		scene_el[i].style="red"
-		if (selected!=null) {
-		    selected.style="black";
-		}
-		selected=scene_el[i];
-	    } else {
-		if (selected!=null && selected!=scene_el[i]){
-		    performAction(scene_el[i]);
-		    scene_el[i].style="black";
-		}
-		if (selected==scene_el[i]){
-		    selected.style = "black";
-		    selected=null;
+ 	    scene_el[i].draggable=true;	    
+	    for (var j=0;j<selected.length;j++){
+		if (scene_el[i]==selected[j]){
+		    selected[j]=selected[selected.length-1];		    
+		    selected.pop();
+		    scene_el[i].style = "black";
+		    found=true;
 		}
 	    }
+	    if (!found){
+		scene_el[i].style = "red";
+		selected.push(scene_el[i]);
+	    }
 	}
-   }
+    }
 }
+
+
+
+// function onMouseDown(e){
+//     found = false;
+//     for (var i=0;i<scene_el.length;i++){
+// 	if (scene_el[i].collide(e.pageX,e.pageY)){
+// 	    found=true;
+// 	    scene_el[i].draggable=true;
+// 	    if (action==null && selected!=scene_el[i]){
+// 		scene_el[i].style="red"
+// 		if (selected!=null) {
+// 		    selected.style="black";
+// 		}
+// 		selected=scene_el[i];
+// 	    } else {
+// 		if (selected!=null){
+// 		    performAction(scene_el[i]);
+// 		    scene_el[i].style="black";
+// 		}
+		
+// 		if (action==null && selected==scene_el[i]){
+// 		    selected.style = "black";
+// 		    selected=null;
+// 		}
+// 	    }
+// 	}
+//     }
+// }
 
 function onMouseMove(e){
    for (var i=0;i<scene_el.length;i++){
@@ -176,6 +219,20 @@ function getDbVal(){
 	}, null);
     });
     
+}
+
+function init(){
+    dbStuff();
+    context = $("#work_panel")[0].getContext("2d");
+    context_width = $("#work_panel")[0].width;
+    context_height = $("#work_panel")[0].height;
+    offset_left=$("#work_panel").offset().left;
+    offset_top=$("#work_panel").offset().top;
+    scene_el = new Array();
+    selected = new Array();
+    scene_el.push(new node(100+offset_left,200+offset_top));
+    scene_el.push(new node(150+offset_left,200+offset_top));
+    mainInterval = setInterval(draw, 10);
 }
    
 
