@@ -4,7 +4,8 @@ var context_height;
 var scene_el;
 var offset_left;
 var offset_top;
-var db = openDatabase('mydb', '1.0', 'Test DB', 2 * 1024 * 1024);
+//var db = openDatabase('mydb', '1.0', 'Test DB', 2 * 1024 * 1024);
+
 var selected;
 var startX = 50;
 var startY = 50;
@@ -153,33 +154,6 @@ function onMouseDown(e){
 
 
 
-// function onMouseDown(e){
-//     found = false;
-//     for (var i=0;i<scene_el.length;i++){
-// 	if (scene_el[i].collide(e.pageX,e.pageY)){
-// 	    found=true;
-// 	    scene_el[i].draggable=true;
-// 	    if (action==null && selected!=scene_el[i]){
-// 		scene_el[i].style="red"
-// 		if (selected!=null) {
-// 		    selected.style="black";
-// 		}
-// 		selected=scene_el[i];
-// 	    } else {
-// 		if (selected!=null){
-// 		    performAction(scene_el[i]);
-// 		    scene_el[i].style="black";
-// 		}
-		
-// 		if (action==null && selected==scene_el[i]){
-// 		    selected.style = "black";
-// 		    selected=null;
-// 		}
-// 	    }
-// 	}
-//     }
-// }
-
 function onMouseMove(e){
    for (var i=0;i<scene_el.length;i++){
 	if (scene_el[i].draggable){
@@ -199,30 +173,28 @@ function onMouseUp(e){
    }
 }
 
-function dbStuff(){
-    db.transaction(function(qry){
-	qry.executeSql('CREATE TABLE IF NOT EXISTS LOGS (id unique, log)');
-	qry.executeSql('INSERT INTO LOGS (id, log) VALUES (1, "foobar")');
-    });
-}
+// function dbStuff(){
+//     db.transaction(function(qry){
+// 	qry.executeSql('CREATE TABLE IF NOT EXISTS LOGS (id unique, log)');
+// 	qry.executeSql('INSERT INTO LOGS (id, log) VALUES (1, "foobar")');
+//     });
+// }
 
-function getDbVal(){
-    db.transaction(function(qry){
-	qry.executeSql(' SELECT * FROM LOGS', [], function (tx, results) {
-	    var len = results.rows.length, i;
-	    msg = "<p>Found rows: " + len + "</p>";
-	    $('#queryRes').html(msg);
-	    for (i = 0; i < len; i++){
-		msg = "<p><b>" + results.rows.item(i).log + "</b></p>";
-		$('#status').html(msg);
-	    }
-	}, null);
-    });
-    
-}
+// function getDbVal(){
+//     db.transaction(function(qry){
+// 	qry.executeSql(' SELECT * FROM LOGS', [], function (tx, results) {
+// 	    var len = results.rows.length, i;
+// 	    msg = "<p>Found rows: " + len + "</p>";
+// 	    $('#queryRes').html(msg);
+// 	    for (i = 0; i < len; i++){
+// 		msg = "<p><b>" + results.rows.item(i).log + "</b></p>";
+// 		$('#status').html(msg);
+// 	    }
+// 	}, null);
+//     });  
+//}
 
 function init(){
-    dbStuff();
     context = $("#work_panel")[0].getContext("2d");
     context_width = $("#work_panel")[0].width;
     context_height = $("#work_panel")[0].height;
