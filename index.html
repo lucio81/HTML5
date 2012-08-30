@@ -1,0 +1,71 @@
+<!doctype html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>HTML5 Application</title>
+<link rel="shortcut icon" href="favicon.ico" />
+<!-- Load CSS -->
+<!--<link href="css/style.css" rel="stylesheet" type="text/css" /> -->
+<style type="text/css">
+  #work_panel {
+  border: 1px solid black;
+  }
+</style>
+<!-- Load Fonts -->
+<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Droid+Serif:regular,italic,bold,bolditalic" type="text/css" />
+<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Droid+Sans:regular,bold" type="text/css" />
+<!-- Load jQuery library -->
+<script type="text/javascript" src="scripts/jquery-1.7.2.js"></script>
+<!-- Load custom js -->
+<script type="text/javascript" src="scripts/work_panel.js"></script>
+<script type="text/javascript" src="scripts/db_actions.js"></script>
+<script type="text/javascript" src="scripts/sse_actions.js"></script>
+</head>
+<body>
+  <div id="content">
+    <!-- 	<\!--This is the START of the NIVO slider-\-> -->
+    <div>
+      <canvas id="work_panel" width="400" height="300">
+	This text is displayed if your browser does not support HTML5 Canvas.
+      </canvas>
+    </div>
+    <div id="X"></div>
+    <div id="Y"></div>
+    <div id="Buttons">
+      <div id="queryRes"></div>
+      <div id="vars"></div>
+      <div id="tempData"></div>
+    </div>
+    <div class="spacer"></div>
+</div>
+<!--END of content-->
+<!-- <div id="header-wrapper"> -->
+<!-- 	<div id="header"> -->
+<!-- 		<div id="header-text"> -->
+<!-- 			<h4>Working with canvas</h4> -->
+<!-- 			<h6><a href="index.html">Home</a></h6> -->
+<!-- 		</div> -->
+<!-- 	</div> -->
+<!-- </div> -->
+<!-- This is the START of the menu -->
+<div id="menu-wrapper">
+	<div id="main-menu">
+		<ul>
+			<li><button type="button" onclick="performAction(SET_LINK)">Create link</button></li>
+			<li><button type="button" onclick="performAction(DEL_LINK)">Remove link</button></li>
+			<li><button type="button" onclick="performAction(ADD_NODE)">Add node</button></li>
+			<li><button type="button" onclick="performAction(DEL_NODE)">Remove node</button></li>
+			<li><button type="button" onclick="getDbVal()">DB Stuff</button></li>
+			<li><button type="button" onclick="activateSSE(tempData)">SSE Stuff</button></li>
+		</ul>
+	</div>
+	<!--This is the START of the footer-->
+	<div id="footer">
+		<h6>Footer</h6>
+	</div>
+	<!--END of footer-->
+</div>
+<!-- <\!--END of menu-\-> -->
+<!-- <\!--This is the START of the content-\-> -->
+</body>
+</html>
