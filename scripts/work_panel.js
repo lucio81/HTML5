@@ -28,6 +28,7 @@ function node(pX,pY){
 	context.arc(this.x,this.y,this.r,0,2*Math.PI);
 	context.strokeStyle = this.style;
 	context.stroke();
+	//this.draggable=true;
 	for (var i=0;i<this.links.length;i++){
 	    context.beginPath();
 	    context.moveTo(this.x,this.y);

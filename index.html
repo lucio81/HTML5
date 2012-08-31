@@ -5,7 +5,7 @@
 <title>HTML5 Application</title>
 <link rel="shortcut icon" href="favicon.ico" />
 <!-- Load CSS -->
-<!--<link href="css/style.css" rel="stylesheet" type="text/css" /> -->
+<link href="css/style.css" rel="stylesheet" type="text/css" /> 
 <style type="text/css">
   #work_panel {
   border: 1px solid black;
@@ -22,31 +22,14 @@
 <script type="text/javascript" src="scripts/sse_actions.js"></script>
 </head>
 <body>
-  <div id="content">
-    <!-- 	<\!--This is the START of the NIVO slider-\-> -->
-    <div>
-      <canvas id="work_panel" width="400" height="300">
-	This text is displayed if your browser does not support HTML5 Canvas.
-      </canvas>
-    </div>
-    <div id="X"></div>
-    <div id="Y"></div>
-    <div id="Buttons">
-      <div id="queryRes"></div>
-      <div id="vars"></div>
-      <div id="tempData"></div>
-    </div>
-    <div class="spacer"></div>
+<div id="header-wrapper">
+	<div id="header">
+		<div id="header-text">
+			<h4>Working with canvas</h4>
+			<h6><a href="index.html">Home</a></h6>
+		</div>
+	</div>
 </div>
-<!--END of content-->
-<!-- <div id="header-wrapper"> -->
-<!-- 	<div id="header"> -->
-<!-- 		<div id="header-text"> -->
-<!-- 			<h4>Working with canvas</h4> -->
-<!-- 			<h6><a href="index.html">Home</a></h6> -->
-<!-- 		</div> -->
-<!-- 	</div> -->
-<!-- </div> -->
 <!-- This is the START of the menu -->
 <div id="menu-wrapper">
 	<div id="main-menu">
@@ -66,6 +49,21 @@
 	<!--END of footer-->
 </div>
 <!-- <\!--END of menu-\-> -->
+  <div id="content">
+    <!-- 	<\!--This is the START of the NIVO slider-\-> -->
+    <canvas id="work_panel" width="400" height="300">
+      This text is displayed if your browser does not support HTML5 Canvas.
+    </canvas>
+    <div id="X"></div>
+    <div id="Y"></div>
+    <div id="Buttons">
+      <div id="queryRes"></div>
+      <div id="vars"></div>
+      <div id="tempData"></div>
+    </div>
+    <div class="spacer"></div>
+  </div>
+<!--END of content-->
 <!-- <\!--This is the START of the content-\-> -->
 </body>
 </html>
