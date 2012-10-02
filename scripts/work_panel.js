@@ -21,14 +21,18 @@ function node(pX,pY){
     this.y = pY;
     this.r = 10;
     this.selected = false;
-    this.style = "black";
+    this.style = "black"
     this.links = new Array();
     this.draw = function(){
+	if (this.selected){
+	    this.style = "red";
+	}else{
+	    this.style = "black"
+	}
 	context.beginPath();
 	context.arc(this.x,this.y,this.r,0,2*Math.PI);
 	context.strokeStyle = this.style;
 	context.stroke();
-	//this.draggable=true;
 	for (var i=0;i<this.links.length;i++){
 	    context.beginPath();
 	    context.moveTo(this.x,this.y);
@@ -40,7 +44,7 @@ function node(pX,pY){
     }
     this.draggable=false;
     this.collide = function(mx,my){
-	return (mx>this.x && mx<this.x+2*this.r && my>this.y && my<this.y+2*this.r)
+	return (mx>this.x-this.r && mx<this.x+this.r && my>this.y-this.r && my<this.y+this.r)
     }
     this.createLink= function(el){
 	var found = false;
@@ -108,10 +112,6 @@ function performAction(val){
 	addNode();
 	break;
     }
-    for (var i=0;i<selected.length;i++){
-	selected[i].style = "black";
-	selected.pop();
-    }
 }
 
 function removeNode(node){
@@ -134,19 +134,20 @@ function addNode(){
 function onMouseDown(e){
     found = false;
     for (var i=0;i<scene_el.length;i++){
-	if (scene_el[i].collide(e.pageX,e.pageY)){
- 	    scene_el[i].draggable=true;	    
-	    for (var j=0;j<selected.length;j++){
-		if (scene_el[i]==selected[j]){
-		    selected[j]=selected[selected.length-1];		    
-		    selected.pop();
-		    scene_el[i].style = "black";
-		    found=true;
+	if (scene_el[i].collide(e.pageX-offset_left,e.pageY-offset_top)){
+ 	    scene_el[i].selected = !scene_el[i].selected
+	    if (scene_el[i].selected){
+		scene_el[i].draggable=true;
+		selected.push(scene_el[i])
+	    }else{
+		scene_el[i].draggable=false;
+		newsel = new Array()
+		for (j=0;j<selected.length;j++){
+		    if (selected[j]!=scene_el[i]){
+			newsel.push(selected[j]);
+		    }
 		}
-	    }
-	    if (!found){
-		scene_el[i].style = "red";
-		selected.push(scene_el[i]);
+		selected = newsel;
 	    }
 	}
     }
@@ -157,8 +158,8 @@ function onMouseDown(e){
 function onMouseMove(e){
    for (var i=0;i<scene_el.length;i++){
 	if (scene_el[i].draggable){
-	    scene_el[i].x = e.pageX;
-	    scene_el[i].y = e.pageY;
+	    scene_el[i].x = e.pageX-offset_left;
+	    scene_el[i].y = e.pageY-offset_top;
 	    $("#X").html(e.pageX);
 	    $("#Y").html(e.pageY);
 	}
@@ -181,8 +182,6 @@ function init(){
     offset_top=$("#work_panel").offset().top;
     scene_el = new Array();
     selected = new Array();
-    scene_el.push(new node(100+offset_left,200+offset_top));
-    scene_el.push(new node(150+offset_left,200+offset_top));
     mainInterval = setInterval(draw, 10);
 }
    
